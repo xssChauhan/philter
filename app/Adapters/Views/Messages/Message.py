@@ -5,6 +5,7 @@ class Message(Base):
 	def __init__(self,*args,**kwargs):
 		super().__init__(*args,**kwargs)
 		self.type = "message"
+		print("Message is " , self.message)
 
 	def isEcho(self):
 		return self.message.get("is_echo")
