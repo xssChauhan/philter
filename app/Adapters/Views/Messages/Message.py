@@ -24,7 +24,7 @@ class Message(Base):
 	
 		elif self.status.status == "third":
 			print("replying message second")
-			self.send_message(Messages.final)
+			self.send_image("http://i.imgur.com/1iqfFv2.gif")
 	
 		else:
 			print("oops")
