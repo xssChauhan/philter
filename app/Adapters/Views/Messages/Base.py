@@ -706,12 +706,11 @@ class Base():
 			"Content-Type" : "application/json"
 		}
 		reactions = {
-			"reactionfilter-wrong" : "http://im.ezgif.com/tmp/ezgif.com-9befbe8ef0.gif",
-			"reactionfilter-what" : "http://im.ezgif.com/tmp/ezgif.com-b4bdb1a5de.gif",
-			"reactionfilter-courage" : "http://im.ezgif.com/tmp/ezgif.com-b4bdb1a5de.gif",
-			"reactionfilter-duh" : "http://im.ezgif.com/tmp/ezgif.com-ce57ec8a9c.gif",
-			"reactionfilter-squimish" : "http://im.ezgif.com/tmp/ezgif.com-4181c9f83c.gif",
-			"reactionfilter-okay" : "http://im.ezgif.com/tmp/ezgif.com-dd3c899d59.gif"
+			"reactionfilter-wrong" : "http://i.imgur.com/RpFtYgc.gif",
+			"reactionfilter-what" : "http://i.imgur.com/r21Ygwh.gif",
+			"reactionfilter-duh" : "http://i.imgur.com/xR7PjpP.gif",
+			"reactionfilter-squimish" : "http://i.imgur.com/i7Wi2YO.gif",
+			"reactionfilter-okay" : "http://i.imgur.com/NK0bSRG.gif"
 		}
 
 		data = json.dumps({
