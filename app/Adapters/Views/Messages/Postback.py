@@ -23,30 +23,52 @@ class Postback(Base):
 	def __init__(self,*args,**kwargs):
 		super().__init__(*args,**kwargs)
 		self.type = "postback"
+		self.payload = self.payload.decode("utf-8")
 
 	def reply(self):
 		payload = self.payload
-		filter = payload.decode("utf8").split("-")[1]
+		print(payload)
+		try:
+			filter = self.payload.split("\\")[2]
+		except Exception as e:
+			print(e)
 		print("postback reply" , payload)
 
-		if payload.startswith(b"style"):
+		if payload.startswith("style"):
 			print("Making profile picture and Replying profile video")
 			#Add to database
-			u = UserImages(fbid = self.sender , image = self.user.data.get("profile_pic") , primitive = filter , step = 159753)
-			db.session.add(u)
-			db.session.commit()
+			u = UserImages.create(fbid = self.sender , image = self.user.data.get("profile_pic") , primitive = filter , step = 159753)
 			self.setStatus(status = "second")
 			#self.saveAttachment(self.user.data.get("profile_pic"),name="%s.jpg"%(self.user.fbid))
 			# self.processImage(commands.get(payload) , filter = filter)
 			# self.send_image(image = self.replyUrl)
 			# self.buttons(2 , self.user.get("first_name"))
-			self.send_style_quick_reply()
 			self.send_message(Messages.picture)
 		
-		elif payload == b"profile-video":
+		elif payload == "profile-video":
 			print("Replying picture-upload")
 			print("Message",Messages.before_upload)
 			self.send_message(Messages.before_upload)
-			u = UserVideos(fbid = self.sender)
-			db.session.add(u)
-			db.session.commit()
+			u = UserVideos.create(fbid = self.sender)
+			
+		elif payload.startswith("picture"):
+			image = payload.split("\\")[4]
+			print(payload.split("\\"))
+			u = UserImages.create(fbid = self.sender , image = image , primitive = filter , step = 159753)
+			self.send_message(Messages.picture)
+
+		elif payload == "menu-image":
+			self.buttons(1,self.user.get("first_name"))
+
+		elif payload.startswith("share"):
+			self.shareToWall(payload)
+
+		elif payload.startswith("videoshare"):
+			self.shareVideoToWall(payload)
+
+		elif payload == "reaction-menu":
+			self.sendReactionMenu()
+			
+		elif payload.startswith("reactionfilter"):
+			print("Sending reaction")
+			self.sendReaction(payload)

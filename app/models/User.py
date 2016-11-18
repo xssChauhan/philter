@@ -28,6 +28,7 @@ class UserData(db.Model):
 	id = db.Column(db.Integer,primary_key = True)
 	fbid = db.Column(db.Integer,primary_key = True)
 	data = db.Column(JSON)
+	accessToken = db.Column(db.String)
 
 	@classmethod
 	def get(self,fbid):
@@ -52,8 +53,16 @@ class UserImages(db.Model):
 	def getUserSteps(self,fbid):
 		return [e.step for e in self.query.filter(self.fbid  == fbid).all()]
 
+	@classmethod
+	def create(self , *args , **kwargs):
+		temp = self()
+		for i,e in kwargs.items():
+			setattr(temp , i , e)
+		db.session.add(temp)
+		db.session.commit()
 
 class UserVideos(db.Model):
+	
 	__tablename__ = "user_videos"
 	id = db.Column(db.Integer,primary_key = True)
 	fbid = db.Column(db.String)
@@ -62,8 +71,19 @@ class UserVideos(db.Model):
 	def getFb(self,id):
 		return self.query.filter(self.fbid == id).order_by(self.id.desc()).first()
 
-class XDashboardImages():
-	pass
-	'''
-	Implement the database layer for dashboard for investors
-	'''
+	@classmethod
+	def create(self , *args , **kwargs):
+		temp = self()
+		for i,e in kwargs.items():
+			setattr(temp , i , e)
+		db.session.add(temp)
+		db.session.commit()
+
+class UserFacebook(db.Model):
+	id = db.Column(db.Integer , primary_key = True)
+	fb = db.Column(db.String)
+	accessToken = db.Column(db.String)
+
+	@classmethod
+	def last(self,fbid):
+		return self.query.filter(self.fb == fbid).order_by(self.id.desc()).first()
